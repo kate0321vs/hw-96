@@ -13,7 +13,10 @@ cocktailsRouter.get("/", async (req, res) => {
         let cocktails
         const jwtToken = req.get("Authorization")?.replace("Bearer ", "");
         if (!jwtToken) {
-            cocktails = await Cocktail.find({isPublished: true})
+            cocktails = await Cocktail.find({isPublished: true}).populate({
+                path: "user",
+                select: "displayName avatar googleId"
+            });
             res.send(cocktails);
             return;
         } else {
@@ -23,12 +26,21 @@ cocktailsRouter.get("/", async (req, res) => {
                 return;
             }
             if (userId) {
-                cocktails = await Cocktail.find({user: userId});
+                cocktails = await Cocktail.find({user: userId}).populate({
+                    path: "user",
+                    select: "displayName avatar googleId"
+                });
             } else {
                 if (user.role === "admin") {
-                    cocktails = await Cocktail.find();
+                    cocktails = await Cocktail.find().populate({
+                        path: "user",
+                        select: "displayName avatar googleId"
+                    });
                 } else {
-                    cocktails = await Cocktail.find({isPublished: true})
+                    cocktails = await Cocktail.find({isPublished: true}).populate({
+                        path: "user",
+                        select: "displayName avatar googleId"
+                    });
                 }
             }
             res.send(cocktails)
@@ -41,7 +53,7 @@ cocktailsRouter.get("/", async (req, res) => {
 
 cocktailsRouter.get("/:id", async (req, res) => {
     try {
-        const cocktail = Cocktail.findOne({_id: req.params.id});
+        const cocktail = await Cocktail.findOne({_id: req.params.id});
         if (!cocktail) {
             res.status(404).send({message: 'cocktail not found'});
         }
@@ -84,6 +96,17 @@ cocktailsRouter.delete("/:id", auth, permit('admin'), async (req, res) => {
     } catch (e) {
         res.status(500).send(e);
     }
+});
+
+cocktailsRouter.patch('/:id/togglePublished', auth, permit('admin'),async (req, res) => {
+    const cocktail = await Cocktail.findOne({_id: req.params.id})
+    if (!cocktail) {
+        res.status(404).send({error: "Cocktail not found"});
+        return;
+    }
+    cocktail.isPublished = !cocktail.isPublished;
+    await cocktail.save();
+    res.send({ message: "Cocktail publication status toggled"});
 });
 
 export default cocktailsRouter;

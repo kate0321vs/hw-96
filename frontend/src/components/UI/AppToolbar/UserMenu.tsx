@@ -7,6 +7,7 @@ import {useAppDispatch} from "../../../app/hooks.ts";
 import {unsetUser} from "../../../features/Users/usersSlice.ts";
 import {toast} from "react-toastify";
 import {baseURL} from "../../../globalConstants.ts";
+import {NavLink, useNavigate} from "react-router-dom";
 
 interface Props {
   user: IUser;
@@ -15,6 +16,7 @@ interface Props {
 const UserMenu: React.FC<Props> = ({user}) => {
     const dispatch = useAppDispatch();
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+  const navigate = useNavigate();
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -28,6 +30,7 @@ const UserMenu: React.FC<Props> = ({user}) => {
         await dispatch(logout());
         dispatch(unsetUser());
         handleClose();
+        navigate("/");
         toast.success("Logout successfully.");
     }
 
@@ -45,6 +48,7 @@ const UserMenu: React.FC<Props> = ({user}) => {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
+          {user.role === "user" && <MenuItem component={NavLink} to={`/cocktails?userId=${user._id}`}>My cocktails</MenuItem>}
         <MenuItem onClick={handleLogout}>Logout</MenuItem>
       </Menu>
     </>

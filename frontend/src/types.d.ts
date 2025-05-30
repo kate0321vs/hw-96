@@ -43,12 +43,12 @@ export interface GlobalError {
 }
 
 export interface ICocktail {
-    userId: string;
+    user: { _id: string, displayName: string, googleId?: string, avatar: string };
     _id: string;
     name: string;
     image: string;
     recipe: string;
-    ingredients: { name: string; quantity: string};
+    ingredients: { name: string; quantity: string}[];
     isPublished: boolean;
 }
 

@@ -43,3 +43,10 @@ export const deleteCocktail = createAsyncThunk<void, string>(
         await axiosApi.delete(`cocktails/${id}`);
     }
 );
+
+export const makePublicCocktail = createAsyncThunk<void, string>(
+    "cocktails/makePublish",
+    async (id) => {
+        await axiosApi.patch(`cocktails/${id}/togglePublished`);
+    }
+);

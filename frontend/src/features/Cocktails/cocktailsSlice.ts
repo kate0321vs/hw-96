@@ -1,6 +1,12 @@
 import {ICocktail} from "../../types";
 import {createSlice} from "@reduxjs/toolkit";
-import {cocktailsFetch, createCocktail, deleteCocktail, oneCocktailFetch} from "./cocktailsThunk.ts";
+import {
+    cocktailsFetch,
+    createCocktail,
+    deleteCocktail,
+    makePublicCocktail,
+    oneCocktailFetch
+} from "./cocktailsThunk.ts";
 import {RootState} from "../../app/store.ts";
 
 interface CocktailsState {
@@ -10,6 +16,7 @@ interface CocktailsState {
     oneFetchLoading: boolean,
     createLoading: boolean,
     deleteLoading: boolean | string,
+    publicLoading: boolean | string
 }
 
 const initialState: CocktailsState = {
@@ -19,6 +26,7 @@ const initialState: CocktailsState = {
     oneFetchLoading: false,
     createLoading: false,
     deleteLoading: false,
+    publicLoading: false,
 };
 
 export const CocktailsSlice = createSlice({
@@ -67,14 +75,25 @@ export const CocktailsSlice = createSlice({
         builder.addCase(deleteCocktail.rejected, (state) => {
             state.deleteLoading = false;
         });
+
+        builder.addCase(makePublicCocktail.pending, (state) => {
+            state.publicLoading = true;
+        });
+        builder.addCase(makePublicCocktail.fulfilled, (state, action) => {
+            state.publicLoading = action.meta.arg;
+        });
+        builder.addCase(makePublicCocktail.rejected, (state) => {
+            state.publicLoading = false;
+        });
     }
 });
 
-export const selectCocktail = (state: RootState) => state.cocktails.cocktails;
+export const selectCocktails = (state: RootState) => state.cocktails.cocktails;
 export const selectOneCocktail = (state: RootState) => state.cocktails.cocktail;
 export const selectCocktailsLoading = (state: RootState) => state.cocktails.fetchLoading;
 export const selectOneCocktailLoading = (state: RootState) => state.cocktails.oneFetchLoading;
 export const selectCreateCocktailLoading = (state: RootState) => state.cocktails.createLoading;
 export const selectDeleteCocktailLoading = (state: RootState) => state.cocktails.deleteLoading;
+export const selectPublicLoading = (state: RootState) => state.cocktails.publicLoading;
 
 export const cocktailsReducer = CocktailsSlice.reducer;

@@ -20,7 +20,7 @@ const run = async () => {
         role: "user",
         displayName: "John",
         token: crypto.randomUUID(),
-        avatar: 'fixtures/user_avatar.jpg'
+        avatar: 'fixtures/user1_avatar.jpg'
     }, {
         email: "user2@gmail.com",
         password: "password",
