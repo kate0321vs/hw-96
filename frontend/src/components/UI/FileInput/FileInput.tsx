@@ -45,7 +45,7 @@ const FileInput: React.FC<Props> = ({ onChange, name, label, file}) => {
 
         <Grid container spacing={2} alignItems="center" sx={{ width: '100%' }}>
           <Grid  sx={{ flexGrow: 1 }}>
-            <TextField value={fileName} label={label} disabled fullWidth/>
+            <TextField value={fileName} label={label} disabled fullWidth />
           </Grid>
           <Grid>
             <Button variant="contained" onClick={activateInput}>Browse</Button>

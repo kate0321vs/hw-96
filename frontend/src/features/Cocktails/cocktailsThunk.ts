@@ -24,16 +24,18 @@ export const createCocktail = createAsyncThunk<void, ICocktailMutation>(
     "cocktails/create",
     async (newCocktail) => {
         const formData = new FormData();
-        const keys = Object.keys(newCocktail) as (keyof ICocktailMutation)[];
 
-        keys.forEach((key) => {
-            const value = newCocktail[key];
-
-            if (value !== null) {
-                formData.append(key, JSON.stringify(value));
-            }
+        formData.append("name", newCocktail.name);
+        formData.append("recipe", newCocktail.recipe);
+        if (newCocktail.image) {
+            formData.append("image", newCocktail.image);
+        }
+        newCocktail.ingredients.forEach((ingredient, index) => {
+            formData.append(`ingredients[${index}][name]`, ingredient.name);
+            formData.append(`ingredients[${index}][quantity]`, ingredient.quantity);
         });
-        await axiosApi.post('/cocktails', formData);
+
+        await axiosApi.post("/cocktails", formData);
     }
 );
 

@@ -1,9 +1,11 @@
+import {Container} from "@mui/material";
+import FormCocktail from "../components/FormCocktail.tsx";
 
 const NewCocktail = () => {
     return (
-        <div>
-
-        </div>
+        <Container maxWidth="sm">
+            <FormCocktail/>
+        </Container>
     );
 };
 

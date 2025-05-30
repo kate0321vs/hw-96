@@ -18,7 +18,7 @@ import {toast} from "react-toastify";
 import {selectDeleteCocktailLoading, selectPublicLoading} from "../cocktailsSlice.ts";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import {NavLink, useNavigate} from "react-router-dom";
+import {NavLink} from "react-router-dom";
 import DeleteIcon from '@mui/icons-material/Delete';
 
 interface Props {
@@ -33,7 +33,6 @@ const CocktailItem: React.FC<Props> = ({name, image, isPublished, id}) => {
     const dispatch = useAppDispatch();
     const publicLoading = useAppSelector(selectPublicLoading);
     const deleteLoading = useAppSelector(selectDeleteCocktailLoading);
-    const navigate = useNavigate();
 
     const onPublic = async () => {
         if (window.confirm(`Published cocktail ${name}?`)) {
@@ -48,7 +47,6 @@ const CocktailItem: React.FC<Props> = ({name, image, isPublished, id}) => {
             await dispatch(deleteCocktail(id));
             await dispatch(cocktailsFetch(null));
             toast.error('Cocktail was deleted Successfully!');
-            navigate('/');
         }
     }
 

@@ -48,7 +48,7 @@ export interface ICocktail {
     name: string;
     image: string;
     recipe: string;
-    ingredients: { name: string; quantity: string}[];
+    ingredients: { name: string; quantity: string }[];
     isPublished: boolean;
 }
 
@@ -56,5 +56,5 @@ export interface ICocktailMutation {
     name: string;
     image: File | null;
     recipe: string;
-    ingredients: { name: string; quantity: string};
+    ingredients: {name: string; quantity: string}[];
 }

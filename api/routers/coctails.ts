@@ -67,18 +67,17 @@ cocktailsRouter.get("/:id", async (req, res) => {
 cocktailsRouter.post("/", auth, imagesUpload.single('image'), async (req, res) => {
     try {
         const user = (req as RequestWithUser).user;
+
         const cocktail = new Cocktail({
             user: user._id,
             name: req.body.name,
             image: req.file ? 'images/' + req.file.filename : null,
             recipe: req.body.recipe,
-            ingredients: {
-                name: req.body.ingredients.name,
-                quality: req.body.ingredients.quality
-            }
+            ingredients: req.body.ingredients,
         });
+
         await cocktail.save();
-        res.send(cocktail)
+        res.send(cocktail);
     } catch (e) {
         res.status(500).send(e);
     }
@@ -92,7 +91,6 @@ cocktailsRouter.delete("/:id", auth, permit('admin'), async (req, res) => {
             return
         }
         res.send({message: 'Cocktail deleted successfully'});
-        res.send({message: 'Cocktail deleted'});
     } catch (e) {
         res.status(500).send(e);
     }

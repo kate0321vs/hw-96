@@ -32,10 +32,13 @@ const CocktailSchema = new mongoose.Schema({
         default: false,
     },
     ingredients: [{
-        name: {type: String,
-            required: true},
-        quantity: {type: String,
-            required: true},
+        name: {
+            type: String,
+            required: true,
+        },
+        quantity: {
+            type: String,
+            required: true,},
         }],
 })
 
