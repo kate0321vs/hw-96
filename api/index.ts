@@ -2,6 +2,7 @@ import express from "express";
 import * as mongoose from "mongoose";
 import usersRouter from "./routers/users";
 import cors from "cors";
+import cocktailsRouter from "./routers/coctails";
 
 
 const app = express();
@@ -11,6 +12,7 @@ app.use(cors());
 app.use(express.static("public"));
 app.use(express.json());
 app.use('/users', usersRouter);
+app.use('/cocktails', cocktailsRouter)
 
 
 const run = async () => {

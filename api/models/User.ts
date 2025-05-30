@@ -48,7 +48,10 @@ const UserSchema = new Schema<IUser, UserModel ,IUserMethods>({
         default: 'user',
     },
     googleId: String,
-    avatar: String,
+    avatar: {
+        type: String,
+        required: true,
+    },
     token: {
         type: String,
         required: true,
