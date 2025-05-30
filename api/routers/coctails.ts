@@ -86,7 +86,7 @@ cocktailsRouter.post("/", auth, imagesUpload.single('image'), async (req, res) =
 
 cocktailsRouter.delete("/:id", auth, permit('admin'), async (req, res) => {
     try {
-        const cocktail = Cocktail.deleteOne({_id: req.params.id});
+        const cocktail = await Cocktail.deleteOne({_id: req.params.id});
         if (!cocktail) {
             res.status(404).send({message: 'Cocktail not found'});
             return

@@ -12,8 +12,6 @@ const FullInfoCocktail = () => {
     const cocktail = useAppSelector(selectOneCocktail);
     const loading = useAppSelector(selectOneCocktailLoading);
 
-    console.log(cocktail)
-
     useEffect(() => {
         dispatch(oneCocktailFetch(id));
     }, [dispatch, id]);

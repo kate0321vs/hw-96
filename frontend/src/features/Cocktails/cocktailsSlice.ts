@@ -66,21 +66,21 @@ export const CocktailsSlice = createSlice({
             state.createLoading = false;
         });
 
-        builder.addCase(deleteCocktail.pending, (state) => {
-            state.deleteLoading = true;
+        builder.addCase(deleteCocktail.pending, (state, action) => {
+            state.deleteLoading = state.deleteLoading = action.meta.arg;
         });
-        builder.addCase(deleteCocktail.fulfilled, (state, action) => {
-            state.deleteLoading = action.meta.arg;
+        builder.addCase(deleteCocktail.fulfilled, (state) => {
+            state.deleteLoading =false;
         });
         builder.addCase(deleteCocktail.rejected, (state) => {
             state.deleteLoading = false;
         });
 
-        builder.addCase(makePublicCocktail.pending, (state) => {
-            state.publicLoading = true;
-        });
-        builder.addCase(makePublicCocktail.fulfilled, (state, action) => {
+        builder.addCase(makePublicCocktail.pending, (state, action) => {
             state.publicLoading = action.meta.arg;
+        });
+        builder.addCase(makePublicCocktail.fulfilled, (state ) => {
+            state.publicLoading = false;
         });
         builder.addCase(makePublicCocktail.rejected, (state) => {
             state.publicLoading = false;
